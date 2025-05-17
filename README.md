@@ -41,7 +41,7 @@ Este projeto usa Python e requer pacotes específicos. Siga as instruções abai
 ### Uso
 - Execute o script:
   ```bash
-  python downloader.py
+  python main.py
   ```
 - Insira a URL do vídeo do YouTube quando solicitado.
 - Escolha a pasta de saída (opcional).
