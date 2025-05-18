@@ -6,20 +6,23 @@ url = input("URL: ")
 dir = './videos'
 os.makedirs(dir, exist_ok=True)
 
-if not url.startswith(('http://', 'https://')) or 'youtube' not in urlparse(url).netloc:
-    print('URL inválida ou não é do YouTube')
+if not url.startswith(('http://', 'https://')):
+    print('URL inválida')
     exit(1)
 
 ydl_opts = {
-    'format': 'bestvideo[vcodec^=avc1]+bestaudio[ext=m4a]/best[vcodec^=avc1]',
+    'format': 'bestvideo+bestaudio/best',
     'outtmpl': os.path.join(dir, '%(title)s.%(ext)s'),
     'noplaylist': True,
     'merge_output_format': 'mkv',
+    'restrictfilenames': True,
+    'writesubtitles': True,
+    'subtitlelangs': ['en', 'pt-br'],
     'postprocessors': [{
         'key': 'FFmpegVideoConvertor',
         'preferedformat': 'mkv',
     }],
-    'progress_hooks': [lambda d: print(f"Progresso: {d['downloaded_bytes'] / d['total_bytes'] * 100:.1f}%") if d['status'] == 'downloading' else None],
+    'progress_hooks': [lambda d: print(f"Progresso: {d['_percent_str']} (frag {d.get('fragment_index', 0)}/{d.get('fragment_count', 'desconhecido')})") if d['status'] == 'downloading' else None],
 }
 
 try:
