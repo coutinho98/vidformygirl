@@ -11,7 +11,7 @@ if not url.startswith(('http://', 'https://')):
     exit(1)
 
 ydl_opts = {
-    'format': 'bestvideo+bestaudio/best',
+    'format': 'bestvideo[vcodec^=avc1]+bestaudio[ext=m4a]/best[vcodec^=avc1]',
     'outtmpl': os.path.join(dir, '%(title)s.%(ext)s'),
     'noplaylist': True,
     'merge_output_format': 'mkv',
