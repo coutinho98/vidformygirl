@@ -1,33 +1,18 @@
-import os
-from yt_dlp import YoutubeDL
-from urllib.parse import urlparse
+from src.downloader import downloadVideoMKV, downloadVideoMP4, downloadAudio
 
-url = input("URL: ")
-dir = './videos'
-os.makedirs(dir, exist_ok=True)
+def main():
+    url = input("URL: ")
+    print("1. Vídeo (MKV)")
+    print("2. Vídeo (MP4)")
+    print("3. Áudio (MP3)")
+    choice = input("Escolha (1-3): ")
 
-if not url.startswith(('http://', 'https://')):
-    print('URL inválida')
-    exit(1)
+    if choice == '1':
+        print(downloadVideoMKV(url))
+    elif choice == '2':
+        print(downloadVideoMP4(url))
+    elif choice == '3':
+        print(downloadAudio(url))
 
-ydl_opts = {
-    'format': 'bestvideo[vcodec^=avc1]+bestaudio[ext=m4a]/best[vcodec^=avc1]',
-    'outtmpl': os.path.join(dir, '%(title)s.%(ext)s'),
-    'noplaylist': True,
-    'merge_output_format': 'mkv',
-    'restrictfilenames': True,
-    'writesubtitles': True,
-    'subtitlelangs': ['en', 'pt-br'],
-    'postprocessors': [{
-        'key': 'FFmpegVideoConvertor',
-        'preferedformat': 'mkv',
-    }],
-    'progress_hooks': [lambda d: print(f"Progresso: {d['_percent_str']} (frag {d.get('fragment_index', 0)}/{d.get('fragment_count', 'desconhecido')})") if d['status'] == 'downloading' else None],
-}
-
-try:
-    with YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=True)
-        print(f"baixado: {info['title']} em {info.get('height', 'resolução desconhecida')}p")
-except Exception as e:
-    print(f"Error: {e}")
+if __name__ == "__main__":
+    main()
