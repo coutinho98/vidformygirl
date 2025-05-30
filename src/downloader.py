@@ -1,7 +1,7 @@
 from yt_dlp import YoutubeDL
 from .utils import validateURL, getFileName
 
-def downloadVideo(url, options):
+def downloadVideo(url: str, options):
     if not validateURL(url):
         raise ValueError("Invalid URL")
     try:
@@ -11,14 +11,14 @@ def downloadVideo(url, options):
     except Exception as e:
         return f"Error: {e}"
 
-def downloadVideoMKV(url):
+def downloadVideoMKV(url: str):
     from .config import videoOptions
     return downloadVideo(url, videoOptions)
 
-def downloadVideoMP4(url):
+def downloadVideoMP4(url: str):
     from .config import videoOptionsMP4
     return downloadVideo(url, videoOptionsMP4)
 
-def downloadAudio(url):
+def downloadAudio(url: str):
     from .config import audioOptions
     return downloadVideo(url, audioOptions)
